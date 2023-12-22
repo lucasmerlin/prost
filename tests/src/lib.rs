@@ -319,7 +319,7 @@ mod tests {
             foo_bar_baz: 42,
             fuzz_busters: vec![foo::bar_baz::foo_bar_baz::FuzzBuster {
                 t: BTreeMap::<i32, foo::bar_baz::FooBarBaz>::new(),
-                nested_self: None,
+                nested_self: Default::default(),
             }],
             p_i_e: 0,
             r#as: 4,
@@ -405,10 +405,10 @@ mod tests {
     fn test_nesting() {
         use crate::nesting::{A, B};
         let _ = A {
-            a: Some(Box::new(A::default())),
+            a: Box::new(A::default()),
             repeated_a: Vec::<A>::new(),
             map_a: BTreeMap::<i32, A>::new(),
-            b: Some(Box::new(B::default())),
+            b: Box::new(B::default()),
             repeated_b: Vec::<B>::new(),
             map_b: BTreeMap::<i32, B>::new(),
         };
@@ -422,7 +422,7 @@ mod tests {
             let mut a = Box::new(A::default());
             for _ in 0..depth {
                 let mut next = Box::new(A::default());
-                next.a = Some(a);
+                next.a = a;
                 a = next;
             }
 
@@ -528,9 +528,9 @@ mod tests {
         use crate::recursive_oneof::{a, A, B, C};
         let _ = A {
             kind: Some(a::Kind::B(Box::new(B {
-                a: Some(Box::new(A {
+                a: Box::new(A {
                     kind: Some(a::Kind::C(C {})),
-                })),
+                }),
             }))),
         };
     }

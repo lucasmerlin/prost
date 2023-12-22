@@ -423,6 +423,8 @@ impl<'a> CodeGenerator<'a> {
             Label::Optional => {
                 if optional {
                     self.buf.push_str(", optional");
+                } else if self.syntax == Syntax::Proto3 && field.r#type() == Type::Message {
+                    self.buf.push_str(", required");
                 }
             }
             Label::Required => self.buf.push_str(", required"),
@@ -1050,10 +1052,7 @@ impl<'a> CodeGenerator<'a> {
             return false;
         }
 
-        match field.r#type() {
-            Type::Message => true,
-            _ => self.syntax == Syntax::Proto2,
-        }
+        self.syntax == Syntax::Proto2
     }
 
     /// Returns `true` if the field options includes the `deprecated` option.

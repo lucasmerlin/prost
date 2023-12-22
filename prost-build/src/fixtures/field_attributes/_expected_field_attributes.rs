@@ -24,8 +24,8 @@ pub struct Foo {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Bar {
-    #[prost(message, optional, boxed, tag="1")]
-    pub qux: ::core::option::Option<::prost::alloc::boxed::Box<Qux>>,
+    #[prost(message, required, boxed, tag="1")]
+    pub qux: ::prost::alloc::boxed::Box<Qux>,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
